@@ -41,11 +41,11 @@ RUN apt install -y zsh && \
     git clone https://github.com/zsh-users/zsh-completions.git && \
     git clone https://github.com/zdharma/history-search-multi-word.git && \
     git clone https://github.com/zsh-users/zsh-autosuggestions.git && \
-    curl https://github.com/quantoneinc/vs-code-container-with-ssl/config/.zshrc/raw >> ~/.zshrc
+    curl https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/.zshrc >> ~/.zshrc
 
 # SEC: Fail2ban
 RUN apt install -y fail2ban && \
-    wget https://github.com/quantoneinc/vs-code-container-with-ssl/config/jail.local/raw -O /etc/fail2ban/jail.local && \
+    wget https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/jail.local -O /etc/fail2ban/jail.local && \
     systemctl enable fail2ban
 
 # SEC: ClamAV
