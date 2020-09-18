@@ -139,6 +139,17 @@ tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      
 
 For dev workloads outside of a homelab or private cloud behind firewalls, using an nginx reverse proxy with HTTPS and auth redirects is vital to preventing sensitive code exposure.
 
+### Workarounds
+
+**File Watcher Limit**
+
+Containers inherit the default file watcher limit from the docker host. To set an increased value persistently, run the following command on the server and reboot.
+
+```bash
+$ echo "fs.inotify.max_user_watches = 524288" >> /etc/sysctl.conf
+$ sudo sysctl -p
+```
+
 ## Contributing
 
 Contributions including forks and reporting issues are welcome. Be sure to include the output of `$ uname -a` of your container host or `docker-compose` configuration and a detailed description to allow for replication.
