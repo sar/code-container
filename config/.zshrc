@@ -140,4 +140,20 @@ export PATH=/home/$USER/.local/bin:$PATH
 # Configure Ranger Path
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
+# Useful scripts
+
+# Url: Creates url shortcuts
+# Props<url: str, title: str>
+function url {
+    if [ "$#" -ne 2 ]; then
+        echo "[url]: Parsing website title for $1"
+        title=`wget -qO- $1 | \
+        perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si'`
+        printf "[Internet Shortcut]\nURL=$1\r\n" >> ./$title.url
+    fi
+    #else
+    #    printf "[Internet Shortcut]\nURL=$2\r\n" >> ./$1.url
+    #fi
+}
+
 # END OF ZSHRC
