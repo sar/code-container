@@ -123,6 +123,7 @@ DEFAULT_USER=$(whoami)
 
 # Default Exports
 export PATH=/usr/local/lib/python:$PATH
+export PATH=/config/.local/bin:$PATH
 export PATH=/home/$USER/.local/bin:$PATH
 
 # Enable for nvidia-container-runtime CUDA deployments
