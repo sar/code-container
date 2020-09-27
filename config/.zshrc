@@ -81,7 +81,6 @@ POWERLEVEL9K_MODE="awesome-patched"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    apt
     zsh-syntax-highlighting
     zsh-autosuggestions
     zsh-completions
@@ -125,6 +124,7 @@ DEFAULT_USER=$(whoami)
 export PATH=/usr/local/lib/python:$PATH
 export PATH=/config/.local/bin:$PATH
 export PATH=/home/$USER/.local/bin:$PATH
+export PATH=/config/.dotnet/tools:$PATH
 
 # Enable for nvidia-container-runtime CUDA deployments
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
