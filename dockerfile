@@ -11,7 +11,10 @@ RUN wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-p
     apt-get update && \
     apt install -y dotnet-sdk-5.0 dotnet-runtime-5.0 && \
     apt install -y dotnet-sdk-3.1 dotnet-runtime-3.1 && \
-    apt install -y dotnet-sdk-2.1 dotnet-runtime-2.1
+    apt install -y dotnet-sdk-2.1 dotnet-runtime-2.1 && \
+    dotnet tool install -g dotnet-ef && \
+    dotnet new --install Amazon.Lambda.Templates::5.0.0 && \
+    dotnet tool install -g Amazon.Lambda.Tools
 
 # SDK: AWS CLI, aws-shell
 RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -O "awscliv2.zip" && \
