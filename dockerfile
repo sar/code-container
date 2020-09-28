@@ -5,6 +5,18 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt install -y ansible apt-transport-https build-essential ca-certificates chromium-browser ffmpeg gnupg-agent htop iputils-ping libffi-dev libssl-dev python3 python3-dev python3-pip ranger software-properties-common sshpass systemd tree unzip vim wget youtube-dl
 
+# Docker: Runtime
+RUN wget https://download.docker.com/linux/ubuntu/gpg -O docker.gpg && \
+    apt-key add docker.gpg && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+    apt-get update && \
+    apt-get install -y docker-ce docker-ce-cli containerd.io && \
+    USER=`whoami` && \
+    groupmod -g $DOCKER_HOST_GID docker && \
+    usermod -aG docker $USER && \
+    id $USER && \
+    systemctl enable docker
+
 # SDK: Dotnet Core
 RUN wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
