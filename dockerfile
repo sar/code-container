@@ -3,7 +3,7 @@ FROM linuxserver/code-server:amd64-latest
 # Update: System Packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt install -y wget apt-transport-https build-essential libssl-dev libffi-dev python3 python3-pip python3-dev ffmpeg youtube-dl systemd unzip ansible chromium-browser vim htop iputils-ping ranger tree
+    apt install -y ansible apt-transport-https build-essential ca-certificates chromium-browser ffmpeg gnupg-agent htop iputils-ping libffi-dev libssl-dev python3 python3-dev python3-pip ranger software-properties-common sshpass systemd tree unzip vim wget youtube-dl
 
 # SDK: Dotnet Core
 RUN wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
