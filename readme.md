@@ -150,6 +150,39 @@ $ echo "fs.inotify.max_user_watches = 524288" >> /etc/sysctl.conf
 $ sudo sysctl -p
 ```
 
+**Docker in Docker**
+
+To run containers using rootless mode inside the `code-server` container itself, set `gid` as an environment variable (in `.env`) matching the docker host before building the image. This will add the default `$USER` to the `docker` group with the correct permissions to the `docker.sock`.
+
+```env
+DOCKER_HOST_GID=999
+```
+
+```bash
+$ ls -l /var/run/docker.sock
+srw-rw----. 1 root docker 0 Dec 22 17:52 /var/run/docker.sock
+
+$ id $USER
+...999(docker)
+
+# Manually rebuild
+$ docker build --build-arg DOCKER_HOST_GID=999 -t <image_tag> .
+
+# Use docker-compose to build and deploy automatically
+$ docker-compose -f code-server.yaml up
+```
+
+Inside the container, you should no longer receive permission errors upon calling docker comands without sudo.
+
+```bash
+$ docker run hello-world
+docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/create: dial unix /var/run/docker.sock: connect: permission denied.
+See 'docker run --help'.
+
+# Built with GID=<docker_host_gid>
+$ docker run hello-world
+```
+
 ## Contributing
 
 Contributions including forks and reporting issues are welcome. Be sure to include the output of `$ uname -a` of your container host or `docker-compose` configuration and a detailed description to allow for replication.
