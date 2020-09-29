@@ -29,7 +29,7 @@ RUN wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-p
     dotnet new --install Amazon.Lambda.Templates::5.0.0 && \
     dotnet tool install -g Amazon.Lambda.Tools && \
     dotnet tool install -g JetBrains.ReSharper.GlobalTools && \
-    USER=`whoami` && chown -R $USER:$USER /tmp/NuGetScratch
+    chown -R $DEFAULT_USER:$DEFAULT_USER /tmp/NuGetScratch
 
 # SDK: AWS CLI, aws-shell
 RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -O "awscliv2.zip" && \
