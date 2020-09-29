@@ -62,11 +62,19 @@ RUN apt install -y zsh && \
     curl https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/.zshrc >> ~/.zshrc
 
 # Homebrew
+RUN mkdir /home/linuxbrew /config/.cache/Homebrew /config/.config/git && \
+    touch /config/.profile && \
+    chown -R $DEFAULT_USER:$DEFAULT_USER /home/linuxbrew /config/.cache/Homebrew /config/.config/git /config/.profile
+
+USER abc
 RUN yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /config/.profile && \
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
     brew tap git-time-metric/gtm && \
     brew install gtm
 
 # SEC: Fail2ban
+USER root
 RUN apt install -y fail2ban && \
     wget https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/jail.local -O /etc/fail2ban/jail.local && \
     systemctl enable fail2ban
