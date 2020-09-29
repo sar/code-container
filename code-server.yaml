@@ -34,7 +34,10 @@ services:
         window: 15s
 
   code:
-    build: .
+    build:
+      context: .
+      args:
+        - DOCKER_HOST_GID=${DOCKER_HOST_GID}
     image: code.server.sdk
     container_name: code.server
     restart: always

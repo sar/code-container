@@ -1,4 +1,5 @@
 FROM linuxserver/code-server:amd64-latest
+ARG DOCKER_HOST_GID
 
 # Update: System Packages
 RUN apt-get update && \
