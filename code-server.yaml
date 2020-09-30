@@ -38,8 +38,10 @@ services:
       context: .
       args:
         - DOCKER_HOST_GID=${DOCKER_HOST_GID}
+        - DEFAULT_USER=${DEFAULT_USER}
     image: code.server.sdk
     container_name: code.server
+    privileged: false
     restart: always
     env_file: .env
     command: code-server --disable-telemetry
@@ -59,6 +61,7 @@ services:
       - ${HOST_CONFIG_PATH}/extensions:/config/extensions
       - ${HOST_CONFIG_PATH}/extensions:/config/.local/share/code-server/extensions
       - ${HOST_LOG_PATH}:/config/.local/share/code-server/coder-logs
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - proxy
     deploy:

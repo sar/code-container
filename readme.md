@@ -166,7 +166,7 @@ $ id $USER
 ...999(docker)
 
 # Manually rebuild
-$ docker build --build-arg DOCKER_HOST_GID=999 -t <image_tag> .
+$ docker build --build-arg DOCKER_HOST_GID=999 --build-arg DEFAULT_USER=abc -t <image_tag> .
 
 # Use docker-compose to build and deploy automatically
 $ docker-compose -f code-server.yaml up

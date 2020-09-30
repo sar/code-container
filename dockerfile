@@ -1,5 +1,6 @@
 FROM linuxserver/code-server:amd64-latest
 ARG DOCKER_HOST_GID
+ARG DEFAULT_USER
 
 # Update: System Packages
 RUN apt-get update && \
@@ -11,11 +12,12 @@ RUN wget https://download.docker.com/linux/ubuntu/gpg -O docker.gpg && \
     apt-key add docker.gpg && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get update && \
-    apt-get install -y docker-ce docker-ce-cli containerd.io && \
-    USER=`whoami` && \
-    groupmod -g $DOCKER_HOST_GID docker && \
-    usermod -aG docker $USER && \
-    id $USER && \
+    apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# Docker: Default User Perms
+RUN groupmod -g $DOCKER_HOST_GID docker && \
+    usermod -aG docker $DEFAULT_USER && \
+    id $DEFAULT_USER && \
     systemctl enable docker
 
 # SDK: Dotnet Core
