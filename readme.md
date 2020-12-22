@@ -62,6 +62,7 @@ The output image includes SDKs for cloud native app development workloads such a
     * gatsby-cli
     * gulp
     * create-react-app
+    * @storybook/cli
 * .NET Core SDK and Runtime
     * 5.0.0
     * 3.1.0

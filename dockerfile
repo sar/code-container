@@ -45,7 +45,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb -o azure_cli.sh && \
     ./azure_cli.sh
 
 # NPM: Packages
-RUN npm install -g webpack-cli create-react-app gatsby gulp netlify-cli @aws-amplify/cli
+RUN npm install -g webpack-cli create-react-app gatsby gulp netlify-cli @aws-amplify/cli @storybook/cli
 
 # Shell: ZSH
 RUN apt install -y zsh && \
