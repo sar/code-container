@@ -61,7 +61,7 @@ RUN apt install -y zsh && \
     git clone https://github.com/zsh-users/zsh-completions.git && \
     git clone https://github.com/zdharma/history-search-multi-word.git && \
     git clone https://github.com/zsh-users/zsh-autosuggestions.git && \
-    curl https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/.zshrc >> ~/.zshrc
+    curl https://raw.githubusercontent.com/DigitalTransformation/vs-code-container-with-ssl/main/config/.zshrc >> ~/.zshrc
 
 # Homebrew
 RUN mkdir /home/linuxbrew /config/.cache/Homebrew /config/.config/git && \
@@ -78,7 +78,7 @@ RUN yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebr
 # SEC: Fail2ban
 USER root
 RUN apt install -y fail2ban && \
-    wget https://raw.githubusercontent.com/quantoneinc/vs-code-container-with-ssl/main/config/jail.local -O /etc/fail2ban/jail.local && \
+    wget https://raw.githubusercontent.com/DigitalTransformation/vs-code-container-with-ssl/main/config/jail.local -O /etc/fail2ban/jail.local && \
     systemctl enable fail2ban
 
 # SEC: ClamAV
