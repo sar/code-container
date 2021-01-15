@@ -68,7 +68,7 @@ RUN mkdir /home/linuxbrew /config/.cache/Homebrew /config/.config/git && \
     touch /config/.profile && \
     chown -R $DEFAULT_USER:$DEFAULT_USER /home/linuxbrew /config/.cache/Homebrew /config/.config/git /config/.profile
 
-USER abc
+USER $DEFAULT_USER
 RUN yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /config/.profile && \
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \

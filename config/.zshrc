@@ -125,6 +125,7 @@ export PATH=/usr/local/lib/python:$PATH
 export PATH=/config/.local/bin:$PATH
 export PATH=/home/$USER/.local/bin:$PATH
 export PATH=/config/.dotnet/tools:$PATH
+export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 
 # Enable for nvidia-container-runtime CUDA deployments
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
