@@ -52,11 +52,11 @@ Here's a quick overview of what the `dockerfile` does to extend the [linuxserver
 The output image includes SDKs for cloud native app development workloads such as React, Node, C#, AWS and Azure Cloud CLIs. 
 
 ```
-* AWS CLI Tools
-    * aws-shell
-    * amplify cli
-* Azure CLI
-* Netlify CLI
+* Cloud CLIs
+    * AWS CLI Tools
+        * aws-shell
+        * amplify cli
+    * Azure CLI
 * NPM packages
     * yarn (upstream)
     * gatsby-cli
