@@ -1,8 +1,8 @@
 # Containerized Code Server with SSL & Dev Tooling
 
-Launch your own [Code Server](github.com/linuxserver/docker-code-server) container with preloaded dev tools (sdks, npm packages, CLIs etc) for an efficient and securely accessible Web IDE in your homelab!
+Launch your own [Code Server](https://github.com/cdr/code-server) container with preloaded dev tools (sdks, npm packages, CLIs etc) for an efficient and securely accessible Web IDE in your homelab!
 
-![vs-code-server](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/code-server-banner.png)
+![vs-code-server](https://raw.githubusercontent.com/cdr/code-server/main/docs/assets/screenshot.png)
 
 ## Getting Started
 
