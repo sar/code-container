@@ -53,7 +53,7 @@ services:
     networks:
       - code_server
     volumes:
-      - ${HOST_CODE_PATH}:${CODE_PATH}
+      - ${HOST_CODE_PATH}:${CODE_PATH}:z
       - ${HOST_CONFIG_PATH}:/home/coder/.config
       - ${HOST_CONFIG_PATH}:/config/.config
       - ${HOST_CONFIG_PATH}/data:/config/data
