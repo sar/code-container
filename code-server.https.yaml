@@ -1,0 +1,87 @@
+# ----------------
+# Code Server + HTTPS Portal Proxy
+# Base Tag: linuxserver/code-server:amd64-latest
+# Docs: https://hub.docker.com/r/linuxserver/code-server
+# ----------------
+
+version: "3.7"
+
+services:
+  portal:
+    image: steveltn/https-portal:1
+    container_name: code.portal
+    env_file: .env
+    ports:
+      - ${VIRTUAL_PORT}:443
+    environment:
+      ACCESS_RESTRICTION: ${ACCESS_RESTRICT}
+      DOMAINS: "${VIRTUAL_HOST} -> http://code:8443"
+      STAGE: local
+      WEBSOCKET: 'true'
+    networks:
+      - code_server
+    volumes:
+      - nginx:/var/lib/https-portal
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 25
+        window: 15s
+
+  code:
+    build:
+      context: .
+      args:
+        - DOCKER_HOST_GID=${DOCKER_HOST_GID}
+        - DEFAULT_USER=${DEFAULT_USER}
+    image: code.server.sdk
+    container_name: code.server
+    privileged: false
+    env_file: .env
+    command: code-server --disable-telemetry
+    expose:
+      - 8443
+    ports:
+      - "5000-5010:5000-5010"
+      - "8000-8010:8000-8010"
+    networks:
+      - code_server
+    volumes:
+      - ${HOST_CODE_PATH}:${CODE_PATH}:z
+      - config:/home/coder/.config
+      - config:/config/.config
+      - config_data:/config/data
+      - workspace:/config/workspace
+      - config_extensions:/config/extensions
+      - config_extensions:/config/.local/share/code-server/extensions
+      - logs:/config/.local/share/code-server/coder-logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - portal
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 32G
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+
+volumes:
+  nginx:
+  config:
+  config_data:
+  config_extensions:
+  workspace:
+  logs:
+
+networks:
+  code_server:
+    driver: bridge
