@@ -7,7 +7,7 @@ if [[ $(which openssl) != "/usr/bin/openssl" ]]
 fi
 
 openssl req -new > ssl.csr
-openssl rsa -in privkey.pem -out cert.key
+openssl rsa -in privkey.pem -out ssl.key
 openssl x509 -in ssl.csr -out ssl.crt -req -signkey ssl.key
 
 set +x
