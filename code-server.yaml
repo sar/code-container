@@ -10,7 +10,6 @@ services:
   proxy:
     image: jwilder/nginx-proxy
     container_name: code.proxy 
-    restart: always
     env_file: .env
     ports:
       - ${VIRTUAL_PORT}:443
@@ -28,7 +27,7 @@ services:
           cpus: '0.5'
           memory: 256M
       restart_policy:
-        condition: any
+        condition: on-failure
         delay: 5s
         max_attempts: 25
         window: 15s
@@ -42,7 +41,6 @@ services:
     image: code.server.sdk
     container_name: code.server
     privileged: false
-    restart: always
     env_file: .env
     command: code-server --disable-telemetry
     expose:
@@ -70,7 +68,7 @@ services:
           cpus: '8'
           memory: 32G
       restart_policy:
-        condition: any
+        condition: on-failure
         delay: 15s
         max_attempts: 5
         window: 60s
