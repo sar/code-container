@@ -2,7 +2,7 @@
 
 Launch your own [Code Server](https://github.com/cdr/code-server) container with preloaded dev tools (sdks, npm packages, CLIs etc) for an efficient and securely accessible Web IDE in your homelab!
 
-![vs-code-server](https://raw.githubusercontent.com/cdr/code-server/main/docs/assets/screenshot.png)
+![code-server](https://raw.githubusercontent.com/cdr/code-server/main/docs/assets/screenshot.png)
 
 ## Getting Started
 
@@ -24,8 +24,16 @@ HOST_CODE_PATH=/mnt/codebase
 CODE_PATH=/code
 
 TZ=America/New_York
-PASSWORD=<PASSWORD>
 SUDO_PASSWORD=<SUDO_PASSWORD>
+```
+
+An additional [config.yaml](config.yaml) is required for `code-server` mapped using `path:ro` volume. The container will auto-generate a file if none is provided.
+
+```
+bind-addr: 0.0.0.0:8080
+auth: password
+password: <<PASSWORD>>
+cert: false
 ```
 
 Nginx is used to reroute traffic from `[::]:80` to upstream HTTPS port `[::]:8443` with self-signed SSL certificates. Checkout and run the [generate_certs.sh](scripts/generate_certs.sh) script to emit the required certificates with signing key using `openssl`.
@@ -45,9 +53,11 @@ Finally, deploy the container stack on the docker host using the command `docker
 
 To comply with Docker CIS, resource limits are defined on each of the containers but can be customized to your hardware in the compose [code-server.yaml](code-server.yaml) file.
 
+An alternative compose file [code-server.https.yaml](code-server.https.yaml) is provided with automatic configuration of NGINX proxy using [steveltn/https-portal](https://hub.docker.com/r/steveltn/https-portal).
+
 ## Pre-Installed Dev Tools
 
-Here's a quick overview of what the `dockerfile` does to extend the [linuxserver/code-server](https://github.com/linuxserver/docker-code-server) base image. This allows containers to be rapidly deployed and scaled up for usage on dev teams with tooling ready to go.
+Here's a quick overview of what the `dockerfile` does to extend [debian:buster](https://hub.docker.com/_/debian) base image. This allows containers to be rapidly deployed and scaled up for usage on dev teams with tooling ready to go.
 
 The output image includes SDKs for cloud native app development workloads such as React, Node, C#, AWS and Azure Cloud CLIs. 
 
@@ -119,7 +129,11 @@ Alternatively, if you'd prefer not to expose ports, check out the [vscode-browse
 
 ## Security Considerations
 
-As the base image extends `ubuntu:18.04`, additional steps have been taken to add security measures with `hosts` file, `fail2ban` and `clamav` packages preloaded. These are precautionary against attacks but insufficient against (un)known breaches.
+As the base image extends `debian:buster`, additional steps have been taken to add security measures with `hosts` file, `fail2ban` and `clamav` packages preloaded. These are precautionary against attacks but insufficient against (un)known breaches.
+
+**APT over HTTP(s)**
+
+MITM attacks while unlikely by default due to PGP signature verification of repos, can be further averted with `apt-transport-https` package. Vulnerable networks can still reveal user transmit/receive of debian updates, to further anonymize traffic install the package `apt-transport-tor` and use for `tor://` prefix on repos for apt over `tor.service` socks proxy.
 
 **Log Analytics**
 
