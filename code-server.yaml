@@ -1,67 +1,41 @@
 # ----------------
-# Code Server + Nginx Reverse Proxy
+# Code Server + HTTPs Proxy
 # Base Tag: linuxserver/code-server:amd64-latest
 # Docs: https://hub.docker.com/r/linuxserver/code-server
 # ----------------
 
-version: "3.7"
+version: "3.3"
 
 services:
-  proxy:
-    image: jwilder/nginx-proxy
-    container_name: code.proxy 
-    env_file: .env
-    ports:
-      - ${VIRTUAL_PORT}:443
-    networks:
-      - code_server
-    volumes:
-      - ./certs:/etc/nginx/certs:ro
-      - ./vhostd:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 25
-        window: 15s
-
   code:
     build:
       context: .
+      dockerfile: dockerfile
       args:
-        - DOCKER_HOST_GID=${DOCKER_HOST_GID}
+        - HOST_GID=${HOST_GID}
         - DEFAULT_USER=${DEFAULT_USER}
+        - SUDO_PASSWORD=${SUDO_PASSWORD}
+        - CODE_VERSION=${CODE_VERSION}
     image: code.server.sdk
     container_name: code.server
     privileged: false
+    user: ${DEFAULT_USER}
     env_file: .env
-    command: code-server --disable-telemetry
-    expose:
-      - 8443
     ports:
+      - ${VIRTUAL_PORT}:8080
       - "5000-5010:5000-5010"
       - "8000-8010:8000-8010"
     networks:
       - code_server
     volumes:
       - ${HOST_CODE_PATH}:${CODE_PATH}:z
-      - ${HOST_CONFIG_PATH}:/home/coder/.config
-      - ${HOST_CONFIG_PATH}:/config/.config
-      - ${HOST_CONFIG_PATH}/data:/config/data
-      - ${HOST_CONFIG_PATH}/workspace:/config/workspace
-      - ${HOST_CONFIG_PATH}/extensions:/config/extensions
-      - ${HOST_CONFIG_PATH}/extensions:/config/.local/share/code-server/extensions
-      - ${HOST_LOG_PATH}:/config/.local/share/code-server/coder-logs
+      - ./config/config.yaml:/config/config.yaml:ro
+      - ./certs:/config/certs:ro
+      - config_data:/config/data
+      - config_extensions:/config/extensions
+      - logs:/config/data/logs
+      - logs:/home/${DEFAULT_USER}/.config/code-server/coder-logs
       - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - proxy
     deploy:
       resources:
         limits:
@@ -72,6 +46,12 @@ services:
         delay: 15s
         max_attempts: 5
         window: 60s
+
+volumes:
+  config:
+  config_data:
+  config_extensions:
+  logs:
 
 networks:
   code_server:

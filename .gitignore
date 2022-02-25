@@ -4,12 +4,19 @@
 
 # Environment
 .vscode/
-.intellij/
+.idea/
 
 # Securables
 # WARNING!
-# Exposing .env variables may pose a significant security risk
-# to your infrastructure.
+# Exposing .env variables or certs may pose a significant 
+# security risk to your infrastructure.
 # Do not remove or comment out.
 .env
+certs/*.pem
+certs/*.crt
+certs/*.csr
+certs/*.key
+
+# Packages
+pkgs/*.deb
 

@@ -1,5 +1,5 @@
 # ----------------
-# Code Server + HTTPS Portal Proxy
+# Code Server + Nginx Reverse Proxy
 # Base Tag: linuxserver/code-server:amd64-latest
 # Docs: https://hub.docker.com/r/linuxserver/code-server
 # ----------------
@@ -7,21 +7,20 @@
 version: "3.7"
 
 services:
-  portal:
-    image: steveltn/https-portal:1
-    container_name: code.portal
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: code.proxy 
     env_file: .env
     ports:
       - ${VIRTUAL_PORT}:443
-    environment:
-      ACCESS_RESTRICTION: ${ACCESS_RESTRICT}
-      DOMAINS: "${VIRTUAL_HOST} -> http://code:8443"
-      STAGE: local
-      WEBSOCKET: 'true'
     networks:
       - code_server
     volumes:
-      - nginx:/var/lib/https-portal
+      - ./certs:/etc/nginx/certs:ro
+      - ./vhostd:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     deploy:
       resources:
         limits:
@@ -53,16 +52,16 @@ services:
       - code_server
     volumes:
       - ${HOST_CODE_PATH}:${CODE_PATH}:z
-      - config:/home/coder/.config
-      - config:/config/.config
-      - config_data:/config/data
-      - workspace:/config/workspace
-      - config_extensions:/config/extensions
-      - config_extensions:/config/.local/share/code-server/extensions
-      - logs:/config/.local/share/code-server/coder-logs
+      - ${HOST_CONFIG_PATH}:/home/coder/.config
+      - ${HOST_CONFIG_PATH}:/config/.config
+      - ${HOST_CONFIG_PATH}/data:/config/data
+      - ${HOST_CONFIG_PATH}/workspace:/config/workspace
+      - ${HOST_CONFIG_PATH}/extensions:/config/extensions
+      - ${HOST_CONFIG_PATH}/extensions:/config/.local/share/code-server/extensions
+      - ${HOST_LOG_PATH}:/config/.local/share/code-server/coder-logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - portal
+      - proxy
     deploy:
       resources:
         limits:
@@ -73,14 +72,6 @@ services:
         delay: 15s
         max_attempts: 5
         window: 60s
-
-volumes:
-  nginx:
-  config:
-  config_data:
-  config_extensions:
-  workspace:
-  logs:
 
 networks:
   code_server:

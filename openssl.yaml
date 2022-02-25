@@ -1,0 +1,18 @@
+# ------------
+# OpenSSL Self-Signed Certs
+# Base Tag: debian:buster
+# ------------
+
+version: "3.3"
+
+services:
+  certs:
+    build:
+      context: .
+      dockerfile: openssl.dockerfile
+    image: openssl.certs:latest
+    container_name: code.server.runtime.certs
+    volumes:
+      - ./certs:/tmp
+
+# -------------
