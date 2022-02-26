@@ -1,0 +1,5 @@
+https://deb.debian.org/debian/pool/main/a/apt/apt-transport-https_1.8.2.3_all.deb 
+https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20210119_all.deb 
+https://deb.debian.org/debian/pool/main/o/openssl/libssl-dev_1.1.1d-0+deb10u7_amd64.deb 
+https://deb.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1d-0+deb10u7_amd64.deb 
+https://deb.debian.org/debian/pool/main/o/openssl/openssl_1.1.1k-1+deb11u1_amd64.deb 
