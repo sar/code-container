@@ -2,21 +2,16 @@
 # GIT IGNORE
 # ---------------
 
-# Environment
+# ide:: 
 .vscode/
-.idea/
 
-# Securables
-# WARNING!
-# Exposing .env variables or certs may pose a significant 
-# security risk to your infrastructure.
-# Do not remove or comment out.
+# securables::
 .env
 certs/*.pem
 certs/*.crt
 certs/*.csr
 certs/*.key
 
-# Packages
+# pkgs:: 
 pkgs/*.deb
 
