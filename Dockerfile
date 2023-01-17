@@ -20,7 +20,7 @@ ARG RELEASE_BIN_NPM=9.3.0
 
 # @diff code-server::
 # @repo https://github.com/sar/vs-code-container-with-ssl.git
-ARG RELEASE_CODE_SERVER=3.12.0
+ARG RELEASE_CODE_SERVER=4.9.1
 
 # @diff upstream::
 # @repo https://github.com/sar/neovim-container.git
