@@ -11,6 +11,19 @@ ARG DEFAULT_USER
 ARG SUDO_PASSWORD
 ARG HTTPS_PROXY
 
+# >= 16,18
+ARG RELEASE_NODE=18
+ARG RELEASE_BIN_NPM=9.3.0
+ARG RELEASE_CODE_SERVER=3.12.0
+ARG RELEASE_BIN_DOTNET_DBG=2.2.0-961
+ARG RELEASE_BIN_LAMBDA_DOTNET=6.9.0
+ARG RELEASE_BIN_AWS_AMPLIFY_CLI=10.6.1
+ARG RELEASE_BIN_TERRAFORMER=0.8.22
+ARG RELEASE_BIN_GITHUB=2.4.0
+ARG RELEASE_BIN_DIVE=0.9.2
+ARG RELEASE_BIN_GITUI=v0.20.1
+ARG RELEASE_BIN_VERCO=v6.7.0
+
 # --------------
 # USER
 # --------------
@@ -95,8 +108,7 @@ RUN wget https://raw.githubusercontent.com/nodesource/distributions/master/deb/s
 # --------------
 # CodeServer: Setup
 # --------------
-ARG CODE_VERSION
-RUN npm install --unsafe-perm -g code-server@${CODE_VERSION}
+RUN npm install --unsafe-perm -g code-server@${RELEASE_CODE_SERVER}
 
 # --------------
 # Podman: Runtime
