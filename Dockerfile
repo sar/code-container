@@ -9,11 +9,7 @@ FROM debian:11.5
 ARG HOST_GID
 ARG DEFAULT_USER
 ARG SUDO_PASSWORD
-
-# --------------
-# PROXY
-# --------------
-ENV https_proxy ${HTTPS_PROXY}
+ARG HTTPS_PROXY
 
 # --------------
 # USER
@@ -45,26 +41,43 @@ RUN apt-get update && \
         bash \
         build-essential \
         curl \
+        dirmgr \
         ffmpeg \
+        fontconfig \
         g++ \
         gcc \
+        gnupg \
         gnupg-agent \
+        golang \
         htop \
+        jq \
+        proxychains4 \
+        chromium \
+        libxcursor-dev \
+        libxdamage-dev \
+        libxi-dev \
+        libxtst-dev \
+        libnss3-dev \
+        libxcb-dri3-dev \
         libffi-dev \
         libx11-dev \
         libxkbfile-dev \
         libsecret-1-dev \
+        libvips-dev \
+        libvips42 \
+        man \
         pkg-config \
-        python3 \
-        python3-dev \
-        python3-pip \
+        proxychains \
         ranger \
+        ripgrep \
+        sed \
         software-properties-common \
         sshpass \
         sudo \
         systemd \
         tar \
         tree \
+        trash-cli \
         unzip \
         vim \
         wget
